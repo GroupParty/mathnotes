@@ -1,0 +1,1033 @@
+\documentclass[oneside]{book}
+
+\usepackage{graphicx} %for inserting images
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{cancel} 	%strikethrough
+\usepackage{esint}	%\oiiint
+
+\numberwithin{equation}{chapter} %equation numbering: (chapter).(#eq in that chapter)
+\setcounter{tocdepth}{0} %only display parts and chapters in the table of contents, 
+
+\title{Math Notes}
+
+%macros
+
+\newenvironment{amatrix}[1]{%
+	\left(\begin{array}{@{}*{#1}{c}|c@{}}
+	}{%
+	\end{array}\right)
+}
+%\begin{amatrix}{2} 	1 & 2 & 3 \\  a & b & c		\end{amatrix} 
+% will output a 3x2 matrix with a vertical line between the 2nd and 3rd column 
+
+\newcommand{\ode}[2]{\ensuremath{\frac{\mathrm{d}#1}{\mathrm{d}#2}}}
+\newcommand{\pde}[2]{\ensuremath{%
+		\frac{\partial #1}{\partial #2}}}
+%usage: \pde{y}{x} will output dy/dx
+
+\newcommand{\oden}[3]{\ensuremath{\frac{\mathrm{d}^{#1}#2}{\mathrm{d}{#3}^{#1}}}}
+\newcommand{\pden}[3]{\ensuremath{\frac{\partial^{#1}#2}{\partial{#3}^{#1}}}}
+%usage: \oden{2}{y}{x} will output d^2y/dx^2
+
+%\newcommand{\grad}[1]{\ensuremath{\nabla#1}}
+%\newcommand{\dive}[1]{\ensuremath{\nabla\cdot #1}}
+%\newcommand{\curl}[1]{\ensuremath{\nabla\times #1}}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\clearpage
+
+\chapter*{Useful formulas}
+These are the equations you see on the front/back pages of a first year introductory physics textbook. 
+\begin{align*}
+	&\sin(\alpha\pm\beta)=\sin\alpha\cos\beta\pm\cos\alpha\sin\beta\\
+	&\cos(\alpha\pm\beta)=\cos\alpha\cos\beta\mp\sin\alpha\sin\beta\\
+	&\tan(\alpha\pm\beta)=\frac{\tan\alpha\pm\tan\beta}{1\mp\tan\alpha\tan\beta}
+\end{align*}
+you'll have to memorize the first two equations. 
+\begin{align*}
+	&\frac{A}{\sin\alpha}=\frac{B}{\sin\beta}=\frac{C}{\sin\gamma}\\
+	&c^2=a^2+b^2-2ab\cos\gamma
+\end{align*}
+you will have to memorize these ones as well. 
+\clearpage
+\part{Mathematical Tools}
+\chapter{Series}
+\section{The Geometric Series}
+
+
+Although geometric series aren't used very heavily in undergrad physics, it's useful to know basic operations involving them (If you took calc BC/equivalent, you can pretty much skip this section). \\
+A geometric $\textbf{progression}$ is a sequence that can be expressed in the form 
+$$a,ar,ar^2,ar^3,\cdots,$$
+The sum of n terms of the geometric progression is 
+\begin{equation}
+	\boxed{S_n=\frac{a(1-r^n)}{1-r}}
+\end{equation}
+A geometric $\textbf{series}$ is a series (infinite terms) where terms form a geometric progression. Then the sum of a geometric series is 
+\begin{equation}
+	\boxed{S=\frac{a}{1-r}, |r|<1}
+\end{equation}
+the sum doesn't exist if $|r|$ is not less than 1.
+\section{Convergence/Divergence}
+A series is said to be $\textbf{convergent}$ if 
+$$\lim_{n\to\infty}S_n=S$$
+where S is a finite number. Otherwise, the series is called divergent. Simple as. 
+\section{Convergence Tests}
+First, we have a preliminary test, which states
+$$\boxed{\text{preliminary test: If the terms of an inifinite series do not tend to zero, the series diverges.}}$$
+next, we have four tests for $\textbf{series of positive terms}$, where every single term in the series is positive (this type of convergence is called $\textbf{absolutely convergent})$
+\begin{itemize}
+	\item The comparison test: a series is convergent if the absolute value of every single term is no larger than a converging series. (the opposite is true as well: the series is divergent if the absolute value of every single term is larger than a diverging series.)
+	\item The integral test: If $0<a_{n+1}\leq a_n$ for $n>N$, then $\sum^\infty a_n$ converges if $\int^\infty a_n\mathrm dn$ is finite and diverges if the integral is infinite. DO NOT USE A LOWER LIMIT.
+	\item The ratio test: a series converges if the ratio, $\rho_n=\left|\frac{a_{n+1}}{a_n}\right|$ evaluated at infinity is less than one. ($\rho=\lim_{n\to\infty} \rho_n<1$). If the ratio is greater than 1, the series diverges and if it's exactly 1, use a different test.
+	\item A special comparison test: if $\sum^\infty_{n=1} b_n$ is a convergent series of positive terms and $a_n/b_n$ tends to a finite limit, then $\sum^\infty_{n=1}a_n$ converges. And if $\sum^\infty_{n=1} b_n$ is a divergent series and $a_n/b_n$ tends to a limit greater than 0, then it the series diverges. 
+\end{itemize}
+lastly, for alternating series: 
+$$\boxed{\text{An alternating series converges if the absolute value of the terms decreases steadily to zero.}}$$
+\section{Conditionally convergent series}
+Some series are conditionally convergent. Those are rare, so you won't have to worry about them. 
+\section{Power Series}
+A power series of the form 
+$$\sum^\infty_{n=0}a_n(x-a)^n=a_0+a_1(x-a)+a_2(x-a)^2+a_3(x-a)^3+\cdots,$$
+\section{Interval of Convergence}
+A interval of convergence is the intevral in which the power series converges. We use the ratio test from section 1.3 to get the values of x. For example, 
+The series 
+$$\sum^\infty_{n=0}\frac{(-x)^n}{2^n}$$
+has a ratio of 
+$$\rho_n=\left|\frac{(-x)^{n+1}}{2^{n+1}}\div\frac{(-x)^n}{2^n}\right|=\left|\frac x2\right|$$
+the series converges for $\rho<1$, so $|x|<2$
+\section{Theorems}
+A power series behaves like a polynomial in their interval of convergence, which makes things easy for us physicists. Here are some useful theorems. 
+\begin{itemize}
+	\item A power series may be differentiated or integrated term by term. The resulting series also converges to the same interval of convergence as the original series.
+	\item Two power series may be added, subtracted, or multiplied. The resultant series converges at least in the least common interval of convergence.
+	\item one series may be substituted in another provided that the values of the substituted series are in the interval of convergence of the other series.
+	\item the power series of a function is $\textbf{unique}$
+\end{itemize}
+\section{Expanding Functions in Power Series}
+To expand a function into a power tool, we first assume there is a $\textbf{convergent power series}$ for a function. Then we plug in $x=0$ in the equation and its derivatives. Series obtained in this way are called $\textbf{Maclaurin series}$. When the series is obtained by writing $(x-a)$ instead of $x$ is called a $\textbf{Taylor series}$. The general form of a Taylor series is 
+\begin{equation}
+	f(x)=f(a)+(x-a)f'(a)+\frac 1{2!}(x-a)^2f''(a)+\cdots+\frac 1{n!}(x-a)^nf^{(n)}(a)+\cdots
+\end{equation}
+and the Maclaurin series can be obtained by replacing the a's with zeros.
+\section{Common Power Series}
+YOU WILL HAVE TO MEMORIZE THOSE SERIES. It's not that many to be honest. 
+\begin{align}
+	&\sin x=\sum^\infty_{n=0}\frac{(-1)^nx^{2n+1}}{(2n+1)!}=x-\frac{x^3}{3!}+\frac{x^5}{5!}-\frac{x^7}{7!}+\cdots\\
+	&\cos x=\sum^\infty_{n=0}\frac{(-1)^nx^{2n}}{(2n)!}=1-\frac{x^2}{2!}+\frac{x^4}{4!}-\frac{x^6}{6!}+\cdots\\
+	&e^x=\sum^\infty_{n=0}\frac{x^n}{n!}=1+x+\frac{x^2}{2!}+\frac{x^3}{3!}+\frac{x^4}{4!}+\cdots\\
+	&\ln(1+x)=\sum^\infty_{n=1}\frac{(-1)^{n+1}x^n}{n}=x-\frac{x^2}2+\frac{x^3}3-\frac{x^4}4+\cdots\\
+	&(1+x)^p=\sum^\infty_{n=0}\binom pnx^n=1+px+\frac{p(p-1)}{2!}x^2+\frac{p(p-1)(p-2)}{3!}x^3+\cdots
+\end{align}
+the trig expansions are the most common ones. To memorize them, just think of how the functions behave for a small x. It's also useful to know that 
+\begin{equation}
+	\binom pn=\frac{p(p-1)(p-2)\cdots(p-n+1)}{n!}
+\end{equation}
+\section{Obtaining Power Series Expansions}
+It is true that the equations we found for the Taylor series just werks for every single function in existence, but when the function is not so simple, even taking the derivative becomes harder. Here are some methods to make the process "easier".
+\begin{itemize}
+	\item Just multiply a series by a polynomial or by another series: self explanatory. Theorem 2 from section 1.7 grantees this works.
+	\item Just divide a series by a polynomial or by another series: also self explanatory. You can divide a series by another series by long division like you would normally do.
+	\item Binomial series: equation 8 from section 1.9 and changing p.
+	\item substitution of a polynomial or a series for the variable in another series: just plugging in a polynomial/series for the x's in a  series. Simple as that.
+\end{itemize}
+\section{Accuracy of Power Series}
+At this point, it is obvious that power series can't be exact because you can't really have a polynomial with infinite terms. The error, defined as the difference between the actual value and he value given by the series, is described by these two statements:\\
+
+If S is an alternating series with each term getting smaller to 0, then the error is less than the first term neglected.\\
+
+If S converges for $|x|<1$, and if $|a_{n+1}|<|a_n|$ for $n>N$, then the error is less than $|a_{N+1}x^{N+1}|\div(1-|x|)$.
+
+\chapter{Complex Numbers}
+Complex numbers are used a lot in electrodynamics and circuit theory. It's also used in solving differential equations, so there's that. 
+\section{Terminology and Notation}
+There are two ways to write a complex number:
+\begin{equation}
+	z=x+iy=r(\cos\theta+i\sin\theta)=re^{i\theta}
+\end{equation}
+in the complex plane, x is the real axis and y is the imaginary axis. Theta is defined as the usual definition for polar coordinates. Here are some commonly used "functions"
+\begin{align}
+	&\operatorname{Re} z=x\\
+	&\operatorname{Im} z=y\\
+	&|z|=\operatorname{mod} z=r=\sqrt{x^2+y^2}\\
+\end{align}
+mod is the modulus, which is the absolute magnitude of a vector.
+\begin{equation}
+	\bar{z}=r[\cos(-\theta)+i\sin(-\theta)]=r(\cos\theta-i\sin\theta)=re^{-i\theta}
+\end{equation}
+$\bar{z}$ is the conjugate of the complex number $z$. 
+\section{Complex Algebra}
+\subsection{General Rules}
+Working with complex numbers is easier than you might think. Just keep the imaginary and real numbers separate and use $i^2=-1$ when applicable. And to convert from the polar form to the rectangular form, it helps to draw the problem in the complex plane. 
+\subsection{Finding the Complex Conjugate}
+The conjugate of the sum/difference/product/quotient of two complex numbers is equal to the sum/difference/product/quotient of the conjugates of the numbers. In other words, you can get the conjugate of an expression by just changing the sings of all the i terms.
+\subsection{Finding the Absolute Value of z}
+Using the definition of the complex conjugate, we find that 
+$$|z|=r=\sqrt{x^2+y^2}=\sqrt{z\bar{z}}$$
+\section{Complex Infinite Series}
+To test the convergence of a complex infinite series, we can use the absolute convergence tests from section 1.3. Also, according to the definition of a complex series, the real AND the imaginary past both have to converge. 
+\section{Disk of Convergence}
+Since complex numbers are kind of like a 2-D system, when you find the "inteveral" of convergence for a complex power series, you get an inequality which is actually an area enclosed by a circle on the complex plane. This is called the disk of convergence. \\
+
+Theorem 2 (radius of convergence for a quotient) is now that the disk of convergence is the smallest of the radii of convergence of the numerator and denominator series AND the distance from the closest point to the origin in the complex plane where the denominator is zero. 
+\section{Exponents of Complex Numbers}
+we define the exp function to be 
+\begin{equation}
+	e^z=\sum^\infty_0\frac{z^n}{n!}=1+z+\frac{z^2}{2!}+\frac{z^3}{3!}+\cdots
+\end{equation}
+however, it can be written as 
+\begin{equation}
+	e^z=e^{x+iy}e^xe^{iy}=e^x(\cos y+i\sin y)
+\end{equation}
+which can be used to show that 
+$$e^{z_1}\cdot e^{z_2}=e^{z_1+z_2}$$
+and substituting $i\theta$ for $z$, we see that 
+\begin{equation}
+	e^{i\theta}=\cos\theta+i\sin\theta
+\end{equation}
+This is known as Euler's equation.Lastly, from Euler's equation, it is obvious 
+\begin{align}
+	&z_1\cdot z_2=r_1e^{i\theta_1}\cdot r_2e^{i\theta_2}=r_1r_2e^{i(\theta_1+\theta_2)}\\
+	&z_1\div z_2=\frac{r_1}{r_2}e^{i(\theta_1-\theta_2)}
+\end{align}
+we can see that adding/subtracting complex numbers is easier in the rectangular form, and multiplying/dividing is easier in the polar form.
+\section{Powers and Roots of Complex Numbers}
+the nth power of a complex number is 
+\begin{equation}
+	z^n=(re^{i\theta})^n=r^ne^{in\theta}
+\end{equation}
+in complex plane, this has the same meaning as taking the nth power of the modulus and multiplying the angle by $n$. We can use this result to prove 
+\begin{equation}
+	(e^{i\theta})^n=(\cos\theta+i\sin\theta)^n=\cos n\theta+i\sin n\theta
+\end{equation}
+this is known as DeMoiver's theorem. We can use this to find the formulas for $\sin 2\theta$, $\cos 2\theta$, $\sin 3\theta$, etc, by taking the imaginary/real part of both sides.
+
+The $n$th root is 
+\begin{equation}
+	z^{1/n}=(re^{i\theta})^{1/n}=r^{1/n}e^{i\theta/n}=\sqrt[n]{r}\left(\cos\frac{\theta}n+i\sin\frac\theta n\right)
+\end{equation}
+we have to convert the complex number we want to take root/take power to the polar form, which can be visualized on the complex plane. 
+\section{Trigonometric Functions for Complex Numbers}
+using Euler's equation,
+\begin{align*}
+	&e^{i\theta}=\cos\theta+i\sin\theta\\
+	&e^{-i\theta}=\cos\theta-i\sin\theta
+\end{align*}
+solving for the $\cos$ and $\sin$, 
+\begin{align}
+	&\sin\theta=\frac{e^{i\theta}-e^{-i\theta}}{2i}\\
+	&\cos\theta=\frac{e^{i\theta}+e^{-i\theta}}{2}
+\end{align}
+we use the same definitions for complex numbers. 
+\begin{align}
+	&\sin z=\frac{e^{iz}-e^{-iz}}{2i}\\
+	&\cos z=\frac{e^{iz}+e^{-iz}}{2}
+\end{align}
+\section{Hyperbolic Functions}
+the trigonometric functions for pure imaginary $z$ are then
+\begin{align*}
+	&\sin iy=\frac{e^{-y}-e^y}{2i}=i\frac{e^y-e^{-y}}2\\
+	&\cos iy=\frac{e^{-y}+e^y}2=\frac{e^y+e^{-y}}2
+\end{align*}
+these functions on the right hand sides appear frequently (differential equations!!!), which we define to be the hyperbolic trignometric functions. 
+\begin{align}
+	&\sinh z=\frac{e^z-e^{-z}}2\\
+	&\cosh z=\frac{e^z+e^{-z}}2
+\end{align}
+from the way we defined it, 
+\begin{align*}
+	&\sin iy=i\sinh y\\
+	&\cos iy=\cosh y
+\end{align*}
+\section{Logarithms}
+the logarithm of a complex number is 
+\begin{equation}
+	w=\ln z=\ln(re^{i\theta})=\operatorname{Ln}r+\ln e^{i\theta}=\operatorname{Ln}r+i\theta
+\end{equation}
+where $\operatorname{Ln}$ is the real logarithm to the base e of the real positive number $r$
+\section{Complex Roots and Powers}
+you can find powers of any complex number, using the formula
+\begin{equation}
+	a^b=e^{b\ln a}
+\end{equation}
+where we can use the definition of $\ln$ from the last section.
+\section{Inverse Trigonometric and Hyperbolic Functions}
+equations involving the inverse trigonometric/hyperbolic functions can be solved by converting the inverse functions to their conjugates. For example,
+
+If $z=\arccos 2$, $\cos z =2$. Using the definition of $\cos z$, 
+$$\frac{e^{iz}+e^{-iz}}2=2$$
+which can be solved using the quadratic formula. 
+
+\section{Examples}
+\subsection{Griffiths Eq. 3.36}
+In this example, we have to find the sum of the series.
+$$I=\sum_{n=1,3,5,\cdots}\frac{1}{n}e^{-n\pi x/a}\sin(n\pi y/a)$$
+since $\sin\theta=\operatorname{Im}e^{i\theta}$,
+$$I=\operatorname{Im}\sum\frac 1nZ^n$$
+where $Z=e^{-\pi(x-iy)/a}$. Using this,
+\begin{align*}
+	\sum_{1,3,5,\cdots}\frac 1nZ^n&=\sum^\infty_{j=0}\frac 1{2j+1}Z^{2j+1}\\
+	&=\int^Z_0\sum^\infty_{j=0}u^{2j}\mathrm du\\
+	&=\int^Z_0\frac 1{1-u^2}\mathrm du\\
+	&=\frac 12\ln\left(\frac{1+Z}{1-Z}\right)
+\end{align*}
+then the imaginary part is 
+$$\operatorname{Im}\frac 12 (\ln R+i\theta)=\frac 12\theta$$
+where $Re^{i\theta}=\frac{1+Z}{1-Z}$. Finding this,
+\begin{align*}
+	\frac{1+Z}{1-Z}&=\frac{1+e^{-\pi(x-iy)/a}}{1-e^{-\pi(x-iy)/a}}\\
+	&=\frac{(1+e^{-\pi(x-iy)/a})(1-e^{-\pi(x+iy)/a})}{(1-e^{-\pi(x-iy)/a})(1-e^{-\pi(x+iy)/a})}\\
+	&=\frac{1+e^{-\pi x/a}(e^{i\pi y/a}-e^{-i\pi y/a})-e^{-2\pi x/a}}{|1-e^{-\pi(x-iy)/a}|^2}\\
+	&=\frac{1+e^{-\pi x/a}\sin(\pi y/a)-e^{-2\pi x/a}}{|1-e^{-\pi(x-iy)/a}|^2}
+\end{align*}
+but since $\tan\theta=\frac{\operatorname{Im}(e^{i\theta})}{\operatorname{Re}(e^{i\theta})}$,
+$$\tan\theta=\frac{2e^{-\pi x/a}\sin(\pi y/a)}{1-e^{-2\pi x/a}}=\frac{2\sin(\pi y/a)}{e^{\pi x/a}-e^{-\pi x/a}}=\frac{\sin(\pi y/a)}{\sinh(\pi x/a)}$$
+therefore,
+$$I=\frac{1}{2}\tan^{-1}\left(\frac{\sin(\pi y/a)}{\sinh(\pi x/a)}\right)$$
+\clearpage
+
+\chapter{Linear Algebra}
+Linear algebra gets used a lot in physics, from solving general equations to differential equations  and quantum mechanics. We'll start with some definitions:
+\section{Basics}
+A matrix is a rectangular array of quantities, usually enclosed in large parentheses, such as 
+$$
+A=
+\begin{pmatrix}
+	1&5&-2\\-3&0&6
+\end{pmatrix}
+$$
+Line across is called a row and vertically is a column. \textbf{unlike} how you normally read the coordinates, a number in the matrix is given by the row number first, and the column number,  like this:
+$$A_{ij}$$
+For example, in matrix $A$, $A_{11}=1$, $A_{12}=5$, and so on.\\
+
+\textbf{Transpose of a Matrix}	A transpose of a matrix is basically the matrix with its rows and columns switched. It's written as 
+$$
+A^\intercal=
+\begin{pmatrix}
+	1&-3\\5&0\\-2&6
+\end{pmatrix}
+$$
+simple as that.\\
+
+\textbf{Sets of Linear Equations}
+Sets of linear equations can be represented as an augmented matrix. Here's an example. 
+\begin{align*}
+	&2x+0y-z=2\\
+	&6x+5y+3z=7\\
+	&2x-y+0z=4
+\end{align*}
+We'll get two matrices out of this: first is the matrix of the coefficients, which is simply the coefficients of the variables:
+$$
+M=
+\begin{pmatrix}
+	2&0&-1\\6&5&3\\2&-1&0
+\end{pmatrix}
+$$
+and a constants matrix
+$$
+k=
+\begin{pmatrix}
+	2\\7\\4
+\end{pmatrix}
+$$
+we can combine these two matrices into one augmented matrix:
+$$
+A=
+\begin{amatrix}{3}
+	2&0&-1&2\\6&5&3&7\\2&-1&0&4
+\end{amatrix}
+$$
+we can use the following operations to reduce the rows of this augmented matrix:
+\begin{itemize}
+	\item interchange two rows
+	\item multiply (or divide) a row by a (nonzero) constant
+	\item add a multiple of one row to another
+\end{itemize}
+doing so for our augmented matrix gives something like 
+$$
+A=
+\begin{amatrix}{3}
+	1&0&0&3/2\\0&1&0&-1\\0&0&1&1
+\end{amatrix}
+$$
+if the final result doesn't make sense (like $0\cdot z=20$), then the system of equations is said to be inconsistent.\\
+
+\textbf{Rank of a Matrix} The number of nonzero rows remaining when a matrix has been \textbf{row reduced} is called the \textbf{rank} of a matrix. We can tell if a system of equations is solvable using the ranks:
+\begin{itemize}
+	\item if (rank M) $<$ (rank A), the equations are inconsistent and there is no solution
+	\item if (rank M) = (rank A) = n (number of unknowns), there is one solution
+	\item if (rank M) = (rank A) = $R < n$, then R unknowns can be found in the terms of the remaining $n-R$ unknowns 
+\end{itemize}
+
+\section{Determinants}
+There are three steps to finding the determinant of a matrix (this method is called Laplace reduction. We'll see why it's called "reduction" later.) So the determinant of a matrix 
+$$
+A=
+\begin{pmatrix}
+	1&-5&2\\7&3&4\\2&1&5
+\end{pmatrix}
+$$
+can be found by choosing the row/column and multiplying each element by a  \textbf{sign}  and the \textbf{determinant of a smaller matrix} (which is called the \textbf{minor} of an element). By the way, the minor multiplied by the sign is called a \textbf{cofactor}. Say, we choose the first row (which is the most common choice)\\
+The first row is 
+$$
+\begin{pmatrix}
+	1&-5&2
+\end{pmatrix}
+$$
+the smaller matrix of the determinant we have to multiply by is the original matrix  \textbf{without} the column and row of the element we're looking at. In our case, $1$ would get multiplied with 
+$$
+\det
+\begin{pmatrix}
+	\cancel{1}&-\cancel{5}&\cancel{2}\\\cancel{7}&3&4\\\cancel{2}&1&5
+\end{pmatrix}
+=\det
+\begin{pmatrix}
+	3&4\\1&5
+\end{pmatrix}
+$$
+and lastly, the sign is $(-1)^{i+j}$ where $i$ is the row and $j$ is the column. On the matrix, it looks something like this:
+$$
+\begin{pmatrix}
+	+&-&+&-&\cdots&+\\
+	-&+&-&+&\cdots&-\\
+	+&-&+&-&\cdots&+\\
+	-&+&-&+&\cdots&-\\
+	\vdots&\vdots&\vdots&\vdots&\ddots&\\
+	+&-&+&-&&+
+\end{pmatrix}
+$$
+so in our case, the sign matrix would look like 
+$$
+\begin{pmatrix}
+	+&-&+\\-&+&-\\+&-&+
+\end{pmatrix}
+$$
+we have to multiply the elements we were concerned with the corresponding elements. In our case, we multiply the individual elements of the row matrix $\begin{pmatrix}
+	1&-5&2
+\end{pmatrix}$ by the signs, giving us 
+$$
+\begin{pmatrix}
+	1&5&2
+\end{pmatrix}
+$$
+so the final expression would be
+\begin{align*}
+	\det\begin{pmatrix}
+		A_{11}&A_{12}&A_{13}\\A_{21}&A_{22}&A_{23}\\A_{31}&A_{32}&A_{33}
+	\end{pmatrix}
+	=&A_{11}\det\begin{pmatrix}
+		A_{22}&A_{23}\\A_{32}&A_{33}
+	\end{pmatrix}\\&-A_{12}\det\begin{pmatrix}
+		A_{21}&A_{23}\\A_{31}&A_{33}
+	\end{pmatrix}+A_{13}\det\begin{pmatrix}
+		A_{21}&A_{22}\\A_{31}&A_{32}
+	\end{pmatrix}
+\end{align*}
+and using the same logic, the determinant of a 2x2 matrix is 
+$$\det\begin{pmatrix}
+	A_{11}&A_{12}\\A_{21}&A_{22}
+\end{pmatrix}=A_{11}A_{22}-A_{12}A_{21}$$
+I know this sounds like a lot, but it's not as complicated as it sounds. It gets better with practice. \\
+
+Here are some useful facts:
+\begin{itemize}
+	\item If each element of one row (or one column) of a determinant is multiplied by a number k, the value of the determinant is multiplied by k
+	\item The value of a determinant is zero if 
+	\begin{itemize}
+		\item all elements of one row (or column) are zero
+		\item two rows (or two columns) are identical
+		\item two rows (or two columns) are proportional
+	\end{itemize}
+	\item If two rows (or two columns) of a determinant are interchanged, the value of the determinant changes sign
+	\item the value of a determinant is unchanged if 
+	\begin{itemize}
+		\item rows are written as columns are columns as rows
+		\item we add to each element of one row, k times the corresponding element of another row, where k is any number (similar statement for columns)
+	\end{itemize}
+	\item For two square matrices of the same order $A$ and $B$, $\det AB=\det BA=(\det A)\cdot(\det B)$
+\end{itemize}
+using the fourth point, we can manipulate a row/column so that many of its elements are zero, so when you use Laplace reduction, there's not as many smaller matrices to compute. 
+\section{Cramer's Rule}
+Cramer's rule is one way of solving a system of equations (or a matrix equation). It involves the determinent of the matrices, and typically used if you can't use a computer/graphing calculator. The general form of Cramer's rule states that for $n$ linear equations in $n$ unknowns,
+\begin{align*}
+	&a_{11}x_1+a_{12}x_2+a_{13}x_3+\cdots+a_{1n}x_n=c_1\\
+	&a_{21}x_1+a_{22}x_2+a_{23}x_3+\cdots+a_{2n}x_n=c_2\\	
+	&a_{31}x_1+a_{32}x_2+a_{33}x_3+\cdots+a_{3n}x_n=c_3\\
+	&\vdots\\
+	&a_{n1}x_1+a_{n2}x_2+a_{n3}x_3+\cdots+a_{nn}x_n=c_n
+\end{align*}
+when there is exactly one solution, the solutions are 
+\begin{align*}
+	&x_1=\frac{\begin{vmatrix}
+			c_1&a_{12}&a_{13}&\cdots&a_{1n}\\c_2&a_{22}&a_{23}&\cdots&a_{2n}\\c_3&a_{32}&a_{33}&\cdots&a_{3n}\\\vdots&\vdots&\vdots&\ddots&\\c_n&a_{n2}&a_{n3}&&a_{nn}
+	\end{vmatrix}}{\begin{vmatrix}
+	a_{11}&a_{12}&a_{13}&\cdots&a_{1n}\\a_{21}&a_{22}&a_{23}&\cdots&a_{2n}\\a_{31}&a_{32}&a_{33}&\cdots&a_{3n}\\\vdots&\vdots&\vdots&\ddots&\\a_{n1}&a_{n2}&a_{n3}&&a_{nn}
+\end{vmatrix}},x_2=\frac{\begin{vmatrix}
+			a_{11}&c_1&a_{13}&\cdots&a_{1n}\\a_{21}&c_2&a_{23}&\cdots&a_{2n}\\a_{31}&c_3&a_{33}&\cdots&a_{3n}\\\vdots&\vdots&\vdots&\ddots&\\a_{n1}&c_n&a_{n3}&&a_{nn}
+	\end{vmatrix}}{\begin{vmatrix}
+			a_{11}&a_{12}&a_{13}&\cdots&a_{1n}\\a_{21}&a_{22}&a_{23}&\cdots&a_{2n}\\a_{31}&a_{32}&a_{33}&\cdots&a_{3n}\\\vdots&\vdots&\vdots&\ddots&\\a_{n1}&a_{n2}&a_{n3}&&a_{nn}
+	\end{vmatrix}}\\\\
+	&x_3=\frac{\begin{vmatrix}
+		a_{11}&a_{12}&c_1&\cdots&a_{1n}\\a_{21}&a_{22}&c_2&\cdots&a_{2n}\\a_{31}&a_{32}&c_3&\cdots&a_{3n}\\\vdots&\vdots&\vdots&\ddots&\\a_{n1}&a_{n2}&c_n&&a_{nn}
+\end{vmatrix}}{\begin{vmatrix}
+		a_{11}&a_{12}&a_{13}&\cdots&a_{1n}\\a_{21}&a_{22}&a_{23}&\cdots&a_{2n}\\a_{31}&a_{32}&a_{33}&\cdots&a_{3n}\\\vdots&\vdots&\vdots&\ddots&\\a_{n1}&a_{n2}&a_{n3}&&a_{nn}
+\end{vmatrix}},x_n=\frac{\begin{vmatrix}
+		a_{11}&a_{12}&a_{13}&\cdots&c_1\\a_{21}&a_{22}&a_{23}&\cdots&c_2\\a_{31}&a_{32}&a_{33}&\cdots&c_3\\\vdots&\vdots&\vdots&\ddots&\\a_{n1}&a_{n2}&a_{n3}&&c_n
+\end{vmatrix}}{\begin{vmatrix}
+		a_{11}&a_{12}&a_{13}&\cdots&a_{1n}\\a_{21}&a_{22}&a_{23}&\cdots&a_{2n}\\a_{31}&a_{32}&a_{33}&\cdots&a_{3n}\\\vdots&\vdots&\vdots&\ddots&\\a_{n1}&a_{n2}&a_{n3}&&a_{nn}
+\end{vmatrix}}
+\end{align*}
+you get the idea. It's that simple. So for two equations with two variables (which is probably the case you're most familiar with),
+\begin{align*}
+	&a_1x+b_1y=c_1\\
+	&a_2x+b_2y=c_2
+\end{align*}
+the solutions are 
+$$
+x=\frac{\begin{vmatrix}
+		c_1&b_1\\c_2&b_2
+\end{vmatrix}}{\begin{vmatrix}
+a_1&b_1\\a_2&b_2
+\end{vmatrix}}, y=\frac{\begin{vmatrix}
+a_1&c_1\\a_2&c_2
+\end{vmatrix}}{\begin{vmatrix}
+a_1&b_1\\a_2&b_2
+\end{vmatrix}}
+$$
+\section{Vectors}
+Vectors are basically row/column matrices and most of the operations involving vectors are closely related to matrix operations. Let's start with the basics of a vector. You're probably already familiar with vectors if you're a physics student, so I won't explain everything\\
+
+A vector, indicated by a boldface letter ($\mathbf A$), or a letter with an arrow over it ($\vec A$) is a three dimensional  (in some sense). The magnitude of a vector (also called the length or the modulus) is given by 
+$$A=|\mathbf{A}|=\sqrt{A_x^2+A_y^2+A_z^2}$$
+in three dimensions. 
+\subsection{Addition/Subtraction of vectors}
+adding two vectors is relatively easy: you can geometrically find it (by placing the vector from the tail) or you can add the components. Subtraction of vectors is like addition of a negative vector, and a negative vector is the vector without the minus sign but pointing in the opposite direction.
+\subsection{Components of a vector}
+A vector can be broken into its components like this:
+$$\mathbf A=A_x\mathbf{i}+A_y\mathbf{j}+A_z\mathbf{k}$$
+\subsection{Multiplication of Vectors}
+There are two ways to multiply two vectors: one multiplication operation is called the scalar product and the other is the vector product\\
+
+\textbf{Scalar product}: the scalar product of two vectors is  given by 
+\begin{equation}
+	\mathbf{A\cdot B}=|\mathbf A||\mathbf B|\cos\theta=A_xB_x+A_yB_y+A_zB_z
+\end{equation}
+where $\theta$ is the angle between the vectors. You can do a bunch of things using this alone, such as finding the angle between vectors. The second equation is derivable by writing the vectors in the component form and expanding and canceling. \\
+\textbf{Schwarz inequality} (obviously) states that 
+\begin{equation}
+	|\mathbf{A\cdot B}|\le AB
+\end{equation}
+\\
+
+\textbf{Vector product}: the vector product of two vectors is given by 
+\begin{equation}
+	|\mathbf{A\times B}|=\mathbf{|A||B|}\sin\theta=\begin{vmatrix}
+		\mathbf{i}&\mathbf{j}&\mathbf{k}\\A_x&A_y&A_z\\B_x&B_y&B_z
+	\end{vmatrix}
+\end{equation} 
+where the direction of the vector product is given by the right hand rule (you have to know this). Again, there's a bunch of stuff to know/memorize.
+\section{Matrix Operations}
+\subsection{Addition of Matrices}
+You can only add two matrices when they have the same dimensions. When they do, it's really easy; you just add the corresponding elements together. For example,
+$$
+\begin{pmatrix}
+	a_{11}&a_{12}&a_{13}\\a_{21}&a_{22}&a_{23}
+\end{pmatrix}
++
+\begin{pmatrix}
+	b_{11}&b_{12}&b_{13}\\b_{21}&b_{22}&b_{23}
+\end{pmatrix}
+=
+\begin{pmatrix}
+	a_{11}+b_{11}&a_{12}+b_{12}&a_{13}+b_{13}\\a_{21}+b_{21}&a_{22}+b_{22}&a_{23}+b_{23}
+\end{pmatrix}
+$$
+simple as that.
+\subsection{Multiplication of Matrices}
+Multiplying two matrices is relatively harder, but here's an example:
+$$
+\begin{pmatrix}
+	a_{11}&a_{12}\\a_{21}&a_{22}
+\end{pmatrix}
+\begin{pmatrix}
+	b_{11}&b_{12}&b_{13}\\b_{21}&b_{22}&b_{23}
+\end{pmatrix}
+=
+\begin{pmatrix}
+	a_{11}b_{11}+a_{12}b_{21}&a_{11}b_{12}+a_{12}b_{22}&a_{11}b_{13}+a_{12}b_{23}\\a_{21}b_{11}+a_{22}b_{21}&a_{21}b_{12}+a_{22}b_{22}&a_{21}b_{13}+a_{22}b_{23}
+\end{pmatrix}
+$$
+here's a more formal definition, which you probably won't remember \\
+
+The element in row $i$ and column $j$ of the product matrix $AB$ is equal to row $i$ of $A$ times column $j$ of B. In index notation,
+\begin{equation}
+	(AB)_{ij}=\sum_kA_{ik}B_{kj}
+\end{equation}
+this only works if the number of columns in the first matrix equals the number rows in the second matrix, which is pretty obvious. \\
+
+Some special properties of a product of multiple matrices are:
+\begin{align}
+	&(ABCD)^\intercal=D^\intercal C^\intercal B^\intercal A^\intercal\\
+	&(ABCD)^{-1}=D^{-1}C^{-1}B^{-1}A^{-1}
+\end{align}
+
+Matrix multiplication is not commutative (you can prove this yourself). We define the commutator of the matrices A and B by 
+\begin{equation}
+	[A,B]=AB-BA
+\end{equation}
+\subsection{Special Matrices}
+\textbf{Null Matrix} The null matrix is a matrix with all its elements equal to zero. \\
+
+\textbf{Identity Matrix} The identity matrix is a square matrix with every element of the main diagonal equal to 1 and all other elements equal to zero. For example,
+$$
+I=
+\begin{pmatrix}
+	1&0&0\\0&1&0\\0&0&1
+\end{pmatrix}
+$$
+It's called the identity matrix because if you multiply a matrix by an identity matrix, the result is equal to the original matrix. The identity matrix can be defined using the Kronecker $\delta$, which is given by 
+\begin{equation}
+	\delta_{ij}=
+	\begin{cases}
+		1,&i=j\\0,&i\ne j
+	\end{cases}
+\end{equation}
+ using this, we can write
+ $$I=(\delta_{ij})$$
+ \\
+
+\textbf{Rotation Matrices}
+The rotation matrix is given by 
+\begin{equation}
+	\begin{pmatrix}
+		\cos\phi&-\sin\phi\\\sin\phi&\cos\phi
+	\end{pmatrix}
+\end{equation}
+what this matrix does is when multiplied by a vector, the resultant vector is the original vector rotated through angle $\phi$
+\subsection{Inverse of a Matrix}
+The inverse of a matrix is given by the equation
+\begin{equation}
+	M^{-1}=\frac{1}{\det M}C^\intercal
+\end{equation}
+where $C_{ij}=$ cofactor of $m_{ij}$. 
+\section{Linear combinations, linear functions, linear operations}
+Here's some definitions (for some reason)\\
+
+A function of a vector $f(\mathbf r)$ is called linear if 
+\begin{align*}
+	&f(\mathbf{r}_1+\mathbf{r}_2)=f(\mathbf r_1)+f(\mathbf r_2)\\
+	&f(a\mathbf r)=af(\mathbf r)
+\end{align*}\\
+
+$\mathbf F(r)$ is a linear vector function if
+\begin{align*}
+	&\mathbf F(\mathbf r_1+\mathbf r_2)=\mathbf F(\mathbf r_1)+\mathbf F(\mathbf r_2)\\
+	&\mathbf F(a\mathbf r)=a\mathbf F(\mathbf r)
+\end{align*}\\
+
+$O$ is a linear operator if 
+\begin{align*}
+	&O(A+B)=O(A)+O(B)\\
+	&O(kA)=kO(A)
+\end{align*}\\
+
+we also see that multiplying by a matrix is a linear operator (you can try this out). 
+\subsection{Orthogonal transformations}
+An orthogonal transformation is a linear transformation which preserves the length of a vector. Mathematically,
+$$x'^2+y'^2=x^2+y^2$$
+some properties of an orthogonal matrix (a matrix which is an orthogonal transformation when multiplied) include
+\begin{align*}
+	&M^{-1}=M^\intercal\\
+	&\det M=\pm 1
+\end{align*}
+\section{Linear dependence and independence}
+vectors are said to be linearly dependent if there's a linear combination of the vectors that equal to zero. Symbolically,
+$$k_1f_1(x)+k_2f_2(x)+\cdots +k_nf_n(x)=0$$
+here's a useful theorem to tell if a given set of functions is linearly independent:\\
+
+If $f_1(x),f_2(x),\cdots,f_n(x)$ have derivatives of order $n-1$, and if the determinant 
+\begin{equation}
+	W=
+	\begin{vmatrix}
+		f_1(x)&f_2(x)&\cdots &f_n(x)\\
+		f_1'(x)&f_2'(x)&\cdots&f'_n(x)\\
+		f_1''(x)&f_2''(x)&\cdots&f_n''(x)\\
+		\vdots&\vdots&\ddots&\vdots\\
+		f_1^{n-1}(x)&f_2^{n-1}(x)&\cdots&f_n^{n-1}(x)
+	\end{vmatrix}
+\ne 0
+\end{equation}
+then the functions are linearly \textbf{independent}. the determinant W is called the Wronskian of the functions.
+
+\section{Special Matrices}
+Here's a list of the special matrices you might encounter;
+\begin{table}[!hbt]
+\centering
+\begin{tabular}{|l|c|c|}
+	\hline Name of Matrix 	&Notations for it 	&How to get it from A\\
+	\hline	Transpose	& $A^T, \tilde{A}, A', A^t$& Interchange rows and columns \\
+	\hline Complex conjugate & $\bar{A}, A^*$ & Take the complex conjugate of each element\\
+	\hline Transpose conjugate & $A^\dagger$ & Take the complex conjugate and tranpose\\
+	\hline Inverse & $A^{-1}$ & $\frac{1}{\det A}C^\intercal$\\
+	\hline 
+\end{tabular}
+\end{table}
+and here's the terms we call those special matrices:
+\begin{table}[!hbt]
+\centering
+\begin{tabular}{|l|c|}
+	\hline A matric is called &if it satisfies the conditions\\
+	\hline real & $A=\bar A$\\
+	\hline symmetric &$A=A^T$\\
+	\hline antisymmetric & $A=-A^T$\\
+	\hline orthogonal &$A^{-1}=A^T$\\
+	\hline pure imaginary &$A=-\bar A$\\
+	\hline Hermitian &$A=A^\dagger$\\
+	\hline anti-Hermitian &$A=-A^\dagger$\\
+	\hline unitary &$A^{-1}=A^\dagger$\\
+	\hline normal &$AA^\dagger=A^\dagger A$\\
+	\hline
+\end{tabular}
+\end{table}
+\section{Eigenvalues and Eigenvectors}
+Eigenvalue and eigenvectors are used in many areas of physics and are kind of hard to understand (if you're a brainlet like me). I'll break this down into smaller sections:
+\subsection{Formal Definition}
+The eigenvalue/vector is defined in an equation called the "eigenvector condition":
+\begin{equation}
+	M\mathbf r=\lambda \mathbf r
+\end{equation}
+here, $M$ is a matrix, $\lambda$ is the eigenvalue (which is a scalar), and $\mathbf r$ is the eigenvector. 
+\subsection{But what do they mean?}
+I'll try to explain by answering the questions I had while learning this:\\
+
+Q: On the left hand side, a matrix is acting on a vector. On the right side, the same vector is getting multiplied by a scalar! How does this work? Like, seriously,  this doesn't make any sense to me. \\
+
+A: The "secret" here is that the vector(s) are the defined to satisfy that condition. Meaning, you can't do this to any vector and expect the condition to hold. \\
+
+Q: Ok. Cool. So those vectors are very special and a matrix transformation on them is simply multiplying them by a certain number. But how is this even useful? \\
+
+A: The trick here is that we can express (almost) any vector with these special vectors. 
+\subsection{So how does this work mathematically?}
+To solve for the eigenvalue (and eigenvector), we have to find the characteristic equation, which looks like this:
+$$
+\begin{vmatrix}
+	m_{11}-\lambda&m_{12}\\
+	m_{21}&m_{22}-\lambda
+\end{vmatrix}=0
+$$
+which can be derived from equation 3.12 and setting the determinant equal to 0 because it's a set of homogeneous equations. In general, you subtract $\lambda$ from every element in the main diagonal and set the determinant equal to zero.\\
+
+Solving the characteristic equation gives the $\lambda$, or the eigenvalues. To find the eigenvectors, we substitute the $\lambda$ back into one of the equations. You'll get something like this:
+$$ax+by=0$$
+any solution of the equation is the eigenvector.\\
+
+Lastly, to fully represent the vector, you add those eigenvectors up and impose the initial conditions. This is best illustrated through an example:
+\subsection{Morin Problem 5.88}
+In this problem, a block with large mass $M$ slides with speed $V_0$ on a frictionless table toward a wall. It collides elastically with a ball with small mass $m$ which bounces back and forth between the block and the wall. In this problem, we'll only find the speeds after the $n$th bounce. \\
+
+since the velocities after a perfectly elastic collision are
+\begin{align*}
+	&v'_1=\frac{m_1-m_2}{m_1+m_2}v_1+\frac{2m_2}{m_1+m_2}v_2\\
+	&v'_2=\frac{2m_1}{m_1+m_2}v_1+\frac{m_2-m_1}{m_1+m_2}v_2
+\end{align*}
+plugging in the appropriate signs and symbols, we get a matrix form of 
+$$
+\begin{pmatrix}
+	V'\\v'
+\end{pmatrix}
+=
+\begin{pmatrix}
+	M-m&-2m\\2M&M-m
+\end{pmatrix}
+\begin{pmatrix}
+	V\\v
+\end{pmatrix}
+$$
+to find the eigenvectors and eigenvalues, we use the characteristic equation, which would look like this:
+$$
+\begin{vmatrix}
+	M-m-\lambda&-2m\\2M&M-m-\lambda
+\end{vmatrix}
+=(M-m-\lambda)^2+4mM=0
+$$
+solving for $\lambda$ (it would have two solutions), 
+\begin{align*}
+	&A_1=\begin{pmatrix}
+		1\\-i\sqrt{\frac{M}{m}}
+	\end{pmatrix}, \lambda_1=\frac{(M-m)+2i\sqrt{Mm}}{M+m}\\
+	&A_2=\begin{pmatrix}
+		1\\i\sqrt{\frac{M}{m}}
+	\end{pmatrix}, \lambda_2=\frac{(M-m)-2i\sqrt{Mm}}{M+m}
+\end{align*}
+The "general" solution is then
+$$c_1A_1+c_2A_2$$
+Using the initial conditions, we see
+$$
+\begin{pmatrix}
+	V_0\\0
+\end{pmatrix}=
+\frac{V_0}{2}(A_1+A_2)
+$$
+so the speeds after $nth$ bounce are 
+$$
+\begin{pmatrix}
+	V_n\\v_n
+\end{pmatrix}
+=\frac{V_0}{2}(A_1\lambda_1^n+A_2\lambda_2^n)
+$$
+\subsection{Diagonlization}
+To diagonalize a matrix, you find the eigenvalues and write them down the main diagonal, like this:
+$$
+\begin{pmatrix}
+	\lambda_1&&&\\&\lambda_2&&\\&&\ddots&\\&&&\lambda_n
+\end{pmatrix}
+$$
+\part{Vector Calculus}
+\chapter{Partial Differentiation}
+\section{What's a partial derivative?}
+A partial derivative is a derivative with respect to a variable while keeping the other variables constant  (for a multivariable function). For example,
+$$\frac{\partial x^3y}{\partial x}=3x^2y, \frac{\partial x^3y}{\partial y}=x^3$$
+also, when a partial derivative is written like 
+$$\left(\frac{\partial z}{\partial r}\right)_x$$
+it means the function we're taking the derivative ($z$) in this case is a function of the variables $r$ and $x$ \textbf{only}. 
+\section{Power series}
+The power series expansion for a two-variable function is 
+\begin{equation}
+	f(x,y)=\sum^\infty_{n=0}\frac{1}{n!}\left(h\frac{\partial}{\partial x}+k\frac{\partial}{\partial y}\right)^nf(a,b)
+\end{equation}
+where $h=x-a$ and $k=y-b$.
+\section{Differentials}
+A differential is a really small length. The general formula for the differential of a function composed of many variables is 
+\begin{equation}
+\mathrm df=\frac{\partial f}{\partial x}\mathrm dx+\frac{\partial z}{\partial y}\mathrm dy+\cdots
+\end{equation}
+whether or not $x$ and $y$ are independent variables, this formula holds true. 
+\section{Chain Rule}
+The chain rule for total differentials should be familiar to you; you just use use equation 4.2 over and over again. For example, if $f=f(x,y)$, $x=x(s,t)$, and $y=y(t)$, 
+\begin{align*}
+	\mathrm df&=\frac{\partial f}{\partial x}\mathrm dx+\frac{\partial z}{\partial y}\mathrm dy\\
+	&=\frac{\partial f}{\partial x}\left( \frac{\partial x}{\partial s}\mathrm ds+\frac{\partial x}{\partial t}\mathrm dt \right)+\frac{\partial z}{\partial y}\frac{\partial y}{\partial t}\mathrm dt
+\end{align*}
+from which you can find the (total) derivatives, like this:
+\begin{align*}
+&\frac{\mathrm df}{\mathrm dt}=\frac{\partial f}{\partial x} \frac{\partial x}{\partial s}\frac{\mathrm ds}{\mathrm dt}+\left( \frac{\partial f}{\partial x}\frac{\partial x}{\partial t}+ \frac{\partial z}{\partial y}\frac{\partial y}{\partial t} \right)\\
+&\frac{\mathrm df}{\mathrm ds}=\frac{\partial f}{\partial x} \frac{\partial x}{\partial s}+\left( \frac{\partial f}{\partial x}\frac{\partial x}{\partial t}+ \frac{\partial z}{\partial y}\frac{\partial y}{\partial t} \right)\frac{\mathrm dt}{\mathrm ds}
+\end{align*}
+to find the \textbf{partial derivative}, you do the same thing but cancel out the differentials other than the variable you're differentiating with respect to. For example, in the above example, 
+\begin{align*}
+	&\frac{\partial f}{\partial t}=\frac{\partial f}{\partial x}\frac{\partial x}{\partial t}+ \frac{\partial z}{\partial y}\frac{\partial y}{\partial t} \\
+	&\frac{\partial f}{\partial s}=\frac{\partial f}{\partial x} \frac{\partial x}{\partial s}
+\end{align*}
+so in other words, you find the total derivative and set the total derivatives (in the answer) equal to zero. I guess you could say it looks like the "normal" chain rule but you have to use the it for every variable the function depends on. 
+\section{Optimization problems}
+There are two ways to solve an optimization problem where you have to maximize/minimize a function of functions.\\
+
+1. Eliminate all variables in the original equation or after implicitly differentiating and solve. This one's self-explanatory. \\
+
+2. Lagrange multipliers: this is an "advanced" method where you're too lazy to solve for a single variable. \\
+let's say, you have a function you wanna maximize ($f=f(x,y)$)and another equation that relates all the variables used in the function, like $\phi(x,y)=\text{const.}$. Differentiating both equations, 
+\begin{align*}
+	&\mathrm df=\frac{\partial f}{\partial x}\mathrm dx+\frac{\partial f}{\partial y}\mathrm dy=0\\
+	&\mathrm d\phi=\frac{\partial\phi }{\partial x}\mathrm dx+\frac{\partial \phi}{\partial x}\mathrm dx=0
+\end{align*}
+multiplying the bottom one by a constant and adding them still equals zero:
+$$
+\left(\frac{\partial f}{\partial x}+\lambda \frac{\partial\phi }{\partial x}\right)\mathrm dx+\left(\frac{\partial f}{\partial y}+\lambda \frac{\partial\phi }{\partial y}\right)\mathrm dy=0
+$$
+now, we set $\lambda$ so that each term in the parentheses equal to zero. Then, we have three equations 
+\begin{align*}
+	&\phi(x,y)=0\\
+	&\frac{\partial f}{\partial x}+\lambda \frac{\partial\phi }{\partial x}=0\\
+	&\frac{\partial f}{\partial y}+\lambda \frac{\partial\phi }{\partial y}=0
+\end{align*}
+and three variables $x,y,\lambda$. In other words, the partial derivatives of the function 
+$$F=f+\lambda\phi$$
+has to equal to zero. The same goes for functions with more than two variables. For more than one conditions ($\phi$), add the functions to $F$, like this
+$$F=f+\lambda_1\phi_1+\lambda_2\phi_2+\cdots$$
+\section{Change of variables}
+to change the variables of an equation, you just use the chain rule. It gets a little tedious if the derivatives are second order. \\
+
+There's actually a "faster" way, known as a Legendre transformation. Suppose we have a function $f(x,y)$. Then, 
+$$\mathrm df=\frac{\partial f}{\partial x}\mathrm dx+\frac{\partial f}{\partial y}\mathrm dy=p\mathrm dx+q\mathrm dy$$
+if we call $\partial f/\partial x=p$ and $\partial f/\partial y=q$. If we subtract $\mathrm d(qy)$ from both sides,
+$$\mathrm d(f-qy)=p\mathrm dx+q\mathrm dy-q\mathrm dy-y\mathrm dq=p\mathrm dx-y\mathrm dq$$
+we define function $g$ 
+$$g=f-qy$$
+then the previous equation becomes 
+$$\mathrm dg=p\mathrm dx-y\mathrm dq$$
+the partial derivatives of $g$ are then simple:
+$$\frac{\partial g}{\partial x}=p,\frac{\partial g}{\partial q}=-y$$
+if this looks familiar to you, it's because of the Hamiltonian equations
+\section{Leibniz' Rule}
+Leibniz' rule states 
+\begin{equation}
+	\frac{\mathrm d}{\mathrm dx}\int^{v(x)}_{u(x)}f(x,t)\mathrm dt=f(x,v)\frac{\mathrm dv}{\mathrm dx}-f(x,u)\frac{\mathrm du}{\mathrm dx}+\int^v_u\frac{\partial f}{\partial x}\mathrm dt
+\end{equation}
+it just werks, until it doesn't. there's probably a bunch of small details we have to check but im too layzee to check
+\chapter{Multiple integrals}
+\section{Introduction}
+Multiple integrals are used when you want to integrate a function that depends on more than one variable. A more physical interpretation of a double/triple integral would be finding the area/volume of the given function. 
+\section{How to calculate double/triple integrals}
+A typical double integral looks like this:
+$$\int^b_a\left(\int^{f(y)}_{g(y)}f(x)\mathrm dx\right)\mathrm dy$$
+to calculate this integral, you compute the inside integral (while taking any other variable as a \textbf{constant})
+$$\int^b_aF(f(y))-F(g(y))\mathrm dy$$
+and calculate the outside integral. For triple integrals, you would just do this twice. 
+\section{How to set up double/triple integrals}
+Generally, you encounter multiple integrals when finding the area/volume of an object described by some function $f(x,y,z)$ (sometimes the boundaries are defined by constants, such as a cube/sphere). Here's a general guide to setting up the integral:\\
+
+1. Find the differential area/volume segment. You should have those memorized for the spherical and cylindrical coordinates, but for other coordinate systems, you can find them using the Jacobian. \\
+
+
+2. Get an expression for the differential amount of what you're trying to find. For example, if you're trying to find the density, the differential mass would be
+$$\mathrm dm=\rho (x,y,z)\mathrm dV$$
+or if you're trying to find the force due to gravitational force, 
+$$\mathrm d\mathbf F=G\frac{M\mathrm dm}{r^2}\mathbf{\hat e}=\frac{GM}{r^2}\rho(x,y,z)\mathrm dV\mathbf{\hat e}$$
+if you're integrating a vector, be careful! You can also save a significant amount of work by seeing which component would cancel out. \\
+
+3. Find the limits. This step can be really hard if you're integrating over a complicated object, but otherwise pretty self-explanatory. As a general rule of thumb, the limits should look like this:
+$$\int^b_a\left(\int^{h(z)}_{i(z)}\left(\int^{f(y,z)}_{g(y,z)}\mathrm dx\right)\mathrm dy\right)\mathrm dz$$
+so that when you plug in the limits, you don't get any "leftover" variables. 
+\section{Differential elements}
+There are two methods for finding the differential area/volume segment: 
+\subsection{Scale factors}
+scale factors are what gets multiplied to the differentials to get the differential \textbf{length} segment. We typically use $f$, $g$, and $h$ for the scale factors.For example, the scale factors for spherical coordinates are 
+\begin{align}
+	&\mathrm dl_r=\mathrm dr\implies f=1\\
+	&\mathrm dl_\theta=r\mathrm d\theta\implies g=r\\
+	&\mathrm dl_\phi=r\sin\theta\mathrm d\theta\implies h=r\sin\theta
+\end{align}
+and for cylindrical coordinates,
+\begin{align}
+	&\mathrm dl_r=\mathrm dr\implies f=1\\
+	&\mathrm dl_\theta=r\mathrm d\theta\implies g=r\\
+	&\mathrm dl_z= \mathrm dz\implies h=1
+\end{align}
+using these, you can find the length/area/volume elements. 
+\begin{align}
+	&\mathrm dl=f\mathrm du\hat u+g\mathrm dv\hat v+h\mathrm dw\hat w\\
+	&\mathrm dV=fgh\cdot\mathrm du\mathrm dv\mathrm dw
+\end{align}
+the area element is the product of two differential \textbf{length} element which are parallel to the area you're trying to find. 
+\subsection{Jacobians}
+The Jacobian is an algebraic way of finding the area/volume elements for unknown coordinate system. It is 
+$$J=\pde{(x,y)}{(s,t)}=\begin{vmatrix}\pde xs&&\pde xt\\ \\ \pde ys&&\pde yt\end{vmatrix}$$
+the area element can be expressed as 
+$$\mathrm dA=|J|\mathrm ds\mathrm dt$$
+and for a three-dimensional system,
+$$J=\pde{(u,v,w)}{(r,s,t)}=\begin{vmatrix}\pde ur&&\pde us&&\pde ut\\ \\\pde vr&&\pde vs&&\pde vt \\ \\\pde wr&&\pde ws&&\pde wt\end{vmatrix}$$
+similarly, the volume element is 
+$$\mathrm dV=|J|\mathrm dr\mathrm ds\mathrm dt$$
+\chapter{Vector Analysis}
+this chapter's mostly about memorizing long formulas. 
+\section{Triple Products}
+There are two formulas you need to know:
+\begin{align}
+	&\mathbf{A\cdot(B\times C)=B\cdot(C\times A)=C\cdot(A\times B)}\\
+	&\mathbf{A\times (B\times C)=B(A\cdot C)-C(A\cdot B)}
+\end{align}
+\section{Differentiation of vectors}
+There are three formulas you need to know:
+\begin{align}
+	&\ode{}{t}(a\mathbf A)=\ode at\mathbf A+a\ode{\mathbf{A}} t\\
+	&\ode{}{t}\mathbf{(A\cdot B)}=\mathbf A\cdot\ode{\mathbf B}{t}+\ode{\mathbf A}{t}\cdot \mathbf B\\
+	&\ode{}{t}\mathbf{(A\times B)}=\mathbf A\times\ode{\mathbf B}{t}+\ode{\mathbf A}{t}\times \mathbf B
+\end{align}
+\section{Differential operators}
+I used Jackson's for some parts of this section, so if the notation's not consistent, it's because I was too lazy to unify them. \\
+\subsection{Del operator}
+the del operator is a useful (vector) operator that we'll use to define some new functions:
+\begin{equation}
+	\nabla=\mathbf i\pde{}{x}+\mathbf j \pde{}{y}+\mathbf k\pde{}{z}
+\end{equation}
+we define the gradient
+\begin{equation}
+	\nabla\phi=\mathbf i\pde\phi x+\mathbf j\pde \phi y+\mathbf k\pde \phi z
+\end{equation}
+the general equation for the gradient is 
+\begin{equation*}
+	\nabla\phi=\hat{ u}\frac 1f\pde\phi u+\hat{ v}\frac 1g\pde \phi v+\hat{w}\frac 1h\pde \phi w
+\end{equation*}
+where $f$, $g$, $h$ are the scale factors. The physical interpretation of the gradient would be the slope at the point. Also, the gradient takes in a \textbf{scalar} and outputs a \textbf{vector}.\\
+
+Also, it is possible to find the directional derivative, 
+\begin{equation}
+	\ode \phi s=\nabla\phi\cdot\mathbf u
+\end{equation}
+since
+$$\ode \phi s=\pde \phi x\ode xs+\pde\phi y\ode ys+\pde\phi z\ode zs$$
+\subsection{Divergence}
+we define the divergence 
+\begin{equation}
+	\nabla\cdot\mathbf V=\pde{V_x}x+\pde{V_y}y+\pde{V_z}z
+\end{equation}
+using the scale factors, 
+\begin{equation*}
+	\nabla\cdot\mathbf V=\frac 1{fgh}\left[\pde{}{u}(V_ugh)+\pde{}{v}(V_vfh)+\pde{}{w}(V_wfg)
+	\right]
+\end{equation*}
+divergence physically tells how much "stuff" is coming out at a point (if you take the vector field to be the fluid velocity field). Also, it's important to note that the divergence takes in a \textbf{vector} and outputs a \textbf{scalar}.
+\subsection{Curl}
+we define the curl 
+\begin{equation}
+	\nabla\times\mathbf V=\mathbf i\left(\pde{V_z}y-\pde{V_y}z\right)+\mathbf j\left(\pde{V_x}z-\pde{V_z}x\right)+\mathbf k\left(\pde{V_y}x-\pde{V_x}y\right)
+\end{equation}
+it is easier to write this using the determinant, since cross products can be written as determinants. 
+\begin{equation}
+	\nabla\times\mathbf V=\begin{vmatrix}\mathbf i&\mathbf j&\mathbf k\\\pde{}{x}&\pde{}{y}&\pde{}{z}\\V_x&V_y&V_z\end{vmatrix}
+\end{equation}
+and using the scale factors,
+\begin{align*}
+	\nabla\times\mathbf F&=\frac 1{gh}\left[\pde{}{v}(F_wh)-\pde{}{w}(F_vg)\right]\hat u\\
+	&+\frac 1{fh}\left[\pde{}{w}(F_uf)-\pde{}{u}(F_wh)\right]\hat v+\frac 1{fg}\left[\pde{}{u}(F_vg)-\pde{}{v}(F_uf)\right]\hat w
+\end{align*}
+writing this as a matrix,
+\begin{equation}
+	\nabla\times\mathbf F=
+	\begin{vmatrix}
+		\frac 1{gh}\hat u&\frac 1{fh}\hat v&\frac 1{fg}\hat w\\\\
+		\pde{}{u}&\pde{}{v}&\pde{}{w}\\\\
+		fF_u&gF_v&hF_w
+	\end{vmatrix}
+\end{equation}
+The curl takes in a \textbf{vector} and outputs a \textbf{scalar}
+\subsection{Laplacian}
+We define the Laplacian to be 
+\begin{equation}
+	\nabla^2\phi=\nabla\cdot(\nabla\phi)=\frac{\partial^2\phi}{\partial x^2}+\frac{\partial^2\phi}{\partial y^2}+\frac{\partial^2\phi}{\partial z^2}
+\end{equation}
+for some reason, Jackson's doesn't have a general form of the Laplacian with the scale factors. 
+\section{Theorems}
+the fundamental theorem for gradients states
+\begin{equation}
+	\int^b_a(\nabla T)\cdot\mathrm d\mathbf l=T(\mathbf b)-T(\mathbf a)
+\end{equation}
+the fundamental theorem for divergences (also known as Gauss'/Green's theorem) states
+\begin{equation}
+	\iiint(\nabla\cdot\mathbf v)\mathrm d\tau=\oiint \mathbf v\cdot\mathrm d\mathbf a
+\end{equation}
+the fundamental theorem for curls states
+\begin{equation}
+	\iint(\nabla\times\mathbf v)\mathrm d\mathbf a=\oint\mathbf v\cdot\mathrm d\mathbf l
+\end{equation}
+lastly, Green's theorems state
+\begin{align}
+	&\iiint(\phi\nabla^2\psi+\nabla\phi\cdot\nabla\psi)\mathrm d^3x=\oiint\phi\pde{\psi}{n}\mathrm da\\
+	&\iiint(\phi\nabla^2\psi-\psi\nabla^2\phi)\mathrm d^3x=\oiint\left[\phi\pde{\psi}{n}-\psi\pde{\phi}{n}\right]\mathrm da
+\end{align}
+
+%note to self: steal off some equations from EM textbooks like Griffiths or Jackson
+
+\end{document}
+
+
+
+
+
+
+
+
+
